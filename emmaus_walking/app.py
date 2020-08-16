@@ -25,9 +25,11 @@ DATA_INFO = 'Health Fit / Apple Watch (Author)'
 AUTHOR_INFO = 'AUTHOR: [Michael J. Booth](https://about.me/mjboothaus)'
 APP_NAME = 'Emmaus Walking Mapping App'
 
+st.beta_set_page_config(page_title=APP_NAME)
+
 # Cell
 
-# TODO: use st.cache() and also look to pre-load and cache/feather data (or similar)
+# TODO: use st.cache() and also look to pre-load and cache/feather data (or similar) - NB: use of @st.cache() below didn't work
 def load_walk_data(walk_name):
     FIT_FILE_PATH = '/Users/mjboothaus/iCloud/Data/HealthFit/'
     data_dir = FIT_FILE_PATH + walk_name[0:3] + '/'
@@ -77,7 +79,7 @@ class SideBar:
     datasource = DATA_INFO
     datasize = 0   # look to calculate this (in MB?) - TEST: Comment change
     author = AUTHOR_INFO
-    title = 'Data details...'
+    data_title = 'Data details...'
     data_local = False
     start_date = dt.date.today()
     end_date = dt.date.today()
@@ -85,20 +87,23 @@ class SideBar:
     walk_name = ''
 
 
-def app_sidebar():
+def app_sidebar(APP_NAME):
     WALK_NAME = ['B2M: Bondi to Manly', 'GNW: Great North Walk', 'GWW: Great West Walk']
     # WALK_SUBDIR_NAME = ['GNW', 'GWW', 'B2M']
     sb = SideBar()
+    st.sidebar.info(APP_NAME)
     st.sidebar.markdown(sb.author)
     st.sidebar.markdown(sb.datasource)
-    st.sidebar.info(sb.title)
-    st.sidebar.markdown('Datasize: ' + str(sb.datasize))
+    st.sidebar.info(sb.data_title)
+    #st.sidebar.markdown('Datasize: ' + str(sb.datasize))
     sb.walk_name = st.sidebar.selectbox('Choose a walk', WALK_NAME, 0)
     return sb
 
+# Cell
 def app_mainscreen(APP_NAME, sb):
-    st.title(APP_NAME)
 
+    #st.title(APP_NAME)
+    st.header(sb.walk_name)
     # Load walking data
     walk_data, walk_date, walk_files = load_walk_data(sb.walk_name)
     total_time, total_distance, start_coord, end_coord = calc_walk_stats(walk_data)
@@ -107,20 +112,13 @@ def app_mainscreen(APP_NAME, sb):
     plot_entire_walk(walk_data, map_handle)
     map_handle.fit_bounds(map_handle.get_bounds())
 
-    # add marker for Opera House
-    #tooltip = "Sydney Opera House"
-    #folium.Marker(
-    #    [-33.85719805, 151.21512338473752], popup="Sydney Opera House", tooltip=tooltip
-    #).add_to(m)
-
-    # call to render Folium map in Streamlit
-
     #TODO: Change the following to .format() and .join() not string "addition"
-    st.write(sb.walk_name)
+
     st.write('Total time: ' + str(total_time))
     st.write('Total distance: ' + str(total_distance))
 
-    folium_static(map_handle)
+    folium_static(map_handle, width=800, height=650)
+    return map_handle, walk_data, walk_date
 
 # Cell
 def notebook_mainscreen(APP_NAME, sb):
@@ -128,7 +126,6 @@ def notebook_mainscreen(APP_NAME, sb):
 
     # Load walking data
     walk_data, walk_date, walk_files = load_walk_data(sb.walk_name)
-
     total_time, total_distance, start_coord, end_coord = calc_walk_stats(walk_data)
 
     map_handle = folium.Map(start_coord, zoom_start=13, detect_retina=True, control_scale=True)
@@ -139,19 +136,15 @@ def notebook_mainscreen(APP_NAME, sb):
     print('Total time: ', total_time)
     print('Total distance: ', total_distance)
 
+    #folium_static(map_handle)
     return map_handle, walk_data, walk_date
 
 # Cell
-sb = app_sidebar()
 
-#try:
+sb = app_sidebar(APP_NAME)
 app_mainscreen(APP_NAME, sb)
 
-# map_handle, walk_data, walk_date = notebook_mainscreen(APP_NAME, sb)
-
-    #except Exception as e:
-#    st.write(e)
-#    st.write('ERROR: Unable to download data')
+#map_handle, walk_data, walk_date = notebook_mainscreen(APP_NAME, sb)
 
 # Cell
 # TODOs:
