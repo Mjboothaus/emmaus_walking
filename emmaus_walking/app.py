@@ -60,19 +60,19 @@ def calc_walk_stats(walk_data):
     return total_time, total_distance, start_coord, end_coord
 
 
-def plot_walk(walk_df, map_handle, walk_colour, freq=100):
+def plot_walk(walk_df, map_handle, linecolour, linewidth, freq=100):
     points = []
     count = 0
     for index, row in walk_df.iterrows():
         count+=1
         if count%freq == 0:
             points.append((row['lat'], row['lon']))
-            folium.PolyLine(points, color=walk_colour, weight=6).add_to(map_handle)
+            folium.PolyLine(points, color=linecolour, weight=linewidth).add_to(map_handle)
 
 
-def plot_entire_walk(walk_data, map_handle):
+def plot_entire_walk(walk_data, map_handle, linecolour, linewidth):
     for iHike, hike in enumerate(walk_data):
-        plot_walk(hike, map_handle, 'yellow')
+        plot_walk(hike, map_handle, linecolour, linewidth)
 
 # Cell
 class SideBar:
@@ -85,6 +85,8 @@ class SideBar:
     end_date = dt.date.today()
     selected_data = None
     walk_name = ''
+    linewidth = 6
+    linecolour = 'yellow'
 
 
 def app_sidebar(APP_NAME):
@@ -97,6 +99,8 @@ def app_sidebar(APP_NAME):
     st.sidebar.info(sb.data_title)
     #st.sidebar.markdown('Datasize: ' + str(sb.datasize))
     sb.walk_name = st.sidebar.selectbox('Choose a walk', WALK_NAME, 0)
+    sb.linewidth = st.sidebar.slider('Line width:', min_value=1, max_value=10, value=6)
+    sb.linecolour = st.sidebar.radio('Line colour:', ['yellow', 'blue'], 0)
     return sb
 
 # Cell
@@ -109,13 +113,13 @@ def app_mainscreen(APP_NAME, sb):
     total_time, total_distance, start_coord, end_coord = calc_walk_stats(walk_data)
 
     map_handle = folium.Map(start_coord, zoom_start=13, detect_retina=True, control_scale=True)
-    plot_entire_walk(walk_data, map_handle)
+    plot_entire_walk(walk_data, map_handle, sb.linecolour, sb.linewidth)
     map_handle.fit_bounds(map_handle.get_bounds())
 
     #TODO: Change the following to .format() and .join() not string "addition"
 
     st.write('Total time: ' + str(total_time))
-    st.write('Total distance: ' + str(total_distance))
+    st.write('Total distance (km): ' + str(int(total_distance)))
 
     folium_static(map_handle, width=800, height=650)
     return map_handle, walk_data, walk_date

@@ -2,7 +2,8 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"DATA_INFO": "88_app.ipynb",
+index = {"placeholder": "00_core.ipynb",
+         "DATA_INFO": "88_app.ipynb",
          "AUTHOR_INFO": "88_app.ipynb",
          "APP_NAME": "88_app.ipynb",
          "load_walk_data": "88_app.ipynb",
@@ -15,7 +16,8 @@ index = {"DATA_INFO": "88_app.ipynb",
          "notebook_mainscreen": "88_app.ipynb",
          "sb": "88_app.ipynb"}
 
-modules = ["app.py"]
+modules = ["core.py",
+           "app.py"]
 
 doc_url = "https://mjboothaus.github.io/emmaus_walking/"
 
