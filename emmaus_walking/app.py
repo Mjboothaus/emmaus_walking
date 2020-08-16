@@ -32,15 +32,15 @@ def load_walk_data(walk_name):
     FIT_FILE_PATH = '/Users/mjboothaus/iCloud/Data/HealthFit/'
     data_dir = FIT_FILE_PATH + walk_name[0:3] + '/'
     data_files = [file for file in os.listdir(data_dir) if file.endswith('.fit')]
-    data_files = sorted(data_files)
+    walk_files = sorted(data_files)
 
     walk_data = []
     walk_date = []
 
-    for iFile, file in enumerate(data_files):
+    for iFile, file in enumerate(walk_files):
         walk_data.append(pd.DataFrame(aio.read(data_dir + file)))
         walk_date.append(parse(file[0:17]))
-    return walk_data, walk_date
+    return walk_data, walk_date, walk_files
 
 
 def calc_walk_stats(walk_data):
@@ -49,9 +49,9 @@ def calc_walk_stats(walk_data):
 
     for iHike, hike in enumerate(walk_data):
         total_time += hike.index.max()
-        print(iHike+1, walk_date[iHike], hike.index.max(), hike['dist'].max()/1e3)
+        # print(iHike+1, walk_date[iHike], hike.index.max(), hike['dist'].max() / 1e3)
         total_distance += hike['dist'].max()
-        total_distance = total_distance / 1e3
+    total_distance /= 1e3
 
     start_coord = walk_data[0][['lat', 'lon']].iloc[0].tolist()
     end_coord = walk_data[-1][['lat', 'lon']].iloc[-1].tolist()
@@ -65,12 +65,12 @@ def plot_walk(walk_df, map_handle, walk_colour, freq=100):
         count+=1
         if count%freq == 0:
             points.append((row['lat'], row['lon']))
-            folium.PolyLine(points, color=walk_colour, weight=8).add_to(map_handle)
+            folium.PolyLine(points, color=walk_colour, weight=6).add_to(map_handle)
 
 
 def plot_entire_walk(walk_data, map_handle):
     for iHike, hike in enumerate(walk_data):
-        plot_walk(hike, map_handle, 'blue')
+        plot_walk(hike, map_handle, 'yellow')
 
 # Cell
 class SideBar:
@@ -100,17 +100,11 @@ def app_mainscreen(APP_NAME, sb):
     st.title(APP_NAME)
 
     # Load walking data
-    walk_data, walk_date = load_walk_data(sb.walk_name)
-
-    # Folium mapping example: center on Sydney Opera House
-    # m = folium.Map(location=[-33.85719805, 151.21512338473752], zoom_start=15)
-
+    walk_data, walk_date, walk_files = load_walk_data(sb.walk_name)
     total_time, total_distance, start_coord, end_coord = calc_walk_stats(walk_data)
 
     map_handle = folium.Map(start_coord, zoom_start=13, detect_retina=True, control_scale=True)
-
     plot_entire_walk(walk_data, map_handle)
-
     map_handle.fit_bounds(map_handle.get_bounds())
 
     # add marker for Opera House
@@ -121,9 +115,10 @@ def app_mainscreen(APP_NAME, sb):
 
     # call to render Folium map in Streamlit
 
+    #TODO: Change the following to .format() and .join() not string "addition"
     st.write(sb.walk_name)
-    st.write('Total time: ' + total_time)
-    st.write('Total distance: ' + total_distance)
+    st.write('Total time: ' + str(total_time))
+    st.write('Total distance: ' + str(total_distance))
 
     folium_static(map_handle)
 
@@ -132,11 +127,12 @@ def notebook_mainscreen(APP_NAME, sb):
     print(APP_NAME)
 
     # Load walking data
-    walk_data, walk_date = load_walk_data(sb.walk_name)
+    walk_data, walk_date, walk_files = load_walk_data(sb.walk_name)
 
     total_time, total_distance, start_coord, end_coord = calc_walk_stats(walk_data)
 
     map_handle = folium.Map(start_coord, zoom_start=13, detect_retina=True, control_scale=True)
+    plot_entire_walk(walk_data, map_handle)
     map_handle.fit_bounds(map_handle.get_bounds())
 
     print(sb.walk_name)
@@ -149,9 +145,11 @@ def notebook_mainscreen(APP_NAME, sb):
 sb = app_sidebar()
 
 #try:
-    #app_mainscreen(APP_NAME, sb)
-map_handle, walk_data, walk_date = notebook_mainscreen(APP_NAME, sb)
-#except Exception as e:
+app_mainscreen(APP_NAME, sb)
+
+# map_handle, walk_data, walk_date = notebook_mainscreen(APP_NAME, sb)
+
+    #except Exception as e:
 #    st.write(e)
 #    st.write('ERROR: Unable to download data')
 
