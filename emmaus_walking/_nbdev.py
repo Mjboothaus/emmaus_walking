@@ -2,12 +2,13 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"placeholder": "00_core.ipynb",
+index = {"in_notebook": "00_core.ipynb",
+         "ipython_info": "00_core.ipynb",
+         "calc_walk_stats": "01_datapipe.ipynb",
+         "load_and_cache_raw_walk_data": "01_datapipe.ipynb",
          "DATA_INFO": "88_app.ipynb",
          "AUTHOR_INFO": "88_app.ipynb",
          "APP_NAME": "88_app.ipynb",
-         "load_walk_data": "88_app.ipynb",
-         "calc_walk_stats": "88_app.ipynb",
          "plot_walk": "88_app.ipynb",
          "plot_entire_walk": "88_app.ipynb",
          "SideBar": "88_app.ipynb",
@@ -17,6 +18,7 @@ index = {"placeholder": "00_core.ipynb",
          "sb": "88_app.ipynb"}
 
 modules = ["core.py",
+           "datapipe.py",
            "app.py"]
 
 doc_url = "https://mjboothaus.github.io/emmaus_walking/"
