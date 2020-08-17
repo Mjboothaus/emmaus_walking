@@ -26,7 +26,7 @@ def calc_walk_stats(walk_data):
 
 
 # TODO: use st.cache() and also look to pre-load and cache/feather data (or similar) - NB: use of @st.cache() below didn't work
-def load_and_cache_raw_walk_data(walk_name):
+def load_and_cache_raw_walk_data(walk_name, sample_freq):
     FIT_FILE_PATH = '/Users/mjboothaus/iCloud/Data/HealthFit/'
     data_dir = FIT_FILE_PATH + walk_name[0:3] + '/'
     data_files = [file for file in os.listdir(data_dir) if file.endswith('.fit')]
@@ -40,4 +40,7 @@ def load_and_cache_raw_walk_data(walk_name):
         walk_date.append(parse(file[0:17]))
 
     total_time, total_distance, start_coord, end_coord = calc_walk_stats(walk_data)
-    return walk_data, walk_date, walk_files
+    walk_merged = pd.concat(walk_data)
+    points = walk_merged[['lat', 'lon']].values.tolist()
+    points = [tuple(point) for ipoint, point in enumerate(points) if ipoint % sample_freq == 0]
+    return walk_data, walk_date, walk_files, points
