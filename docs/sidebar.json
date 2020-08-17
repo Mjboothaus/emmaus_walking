@@ -2,6 +2,7 @@
   "emmaus_walking": {
     "Overview": "/",
     "Core": "/core",
+    "Datapipe - Emmaus Walking Streamlit App": "/datapipe",
     "Emmaus Walking Streamlit App": "/app"
   }
 }

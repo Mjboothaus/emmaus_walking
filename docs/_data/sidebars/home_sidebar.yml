@@ -13,6 +13,9 @@ entries:
       title: Core
       url: /core
     - output: web,pdf
+      title: Datapipe - Emmaus Walking Streamlit App
+      url: /datapipe
+    - output: web,pdf
       title: Emmaus Walking Streamlit App
       url: /app
     output: web
