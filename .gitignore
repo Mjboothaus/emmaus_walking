@@ -37,8 +37,12 @@ wheels/
 .installed.cfg
 *.egg
 
+# Poetry
+poetry.lock
+
 # Virtualenv
 .venv_emmaus_walking/
+.venv*
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
