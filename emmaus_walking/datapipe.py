@@ -2,7 +2,7 @@
 
 __all__ = ['calc_walk_stats', 'load_and_cache_raw_walk_data']
 
-# Internal Cell
+# Cell
 import os
 import pandas as pd
 import activityio as aio
@@ -40,6 +40,7 @@ def load_and_cache_raw_walk_data(walk_name, sample_freq):
         walk_date.append(parse(file[0:17]))
 
     total_time, total_distance, start_coord, end_coord = calc_walk_stats(walk_data)
+    print(start_coord)
     walk_merged = pd.concat(walk_data)
     points = walk_merged[['lat', 'lon']].values.tolist()
     points = [tuple(point) for ipoint, point in enumerate(points) if ipoint % sample_freq == 0]
