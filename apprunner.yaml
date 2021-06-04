@@ -3,7 +3,7 @@ runtime: python3
 build:
   commands:
     pre-build:
-      - unzip emmaus_walking/emmaus_walking/data.zip
+      - unzip emmaus_walking/data.zip
     build:        
       - pip install -r requirements.txt
     post-build:
@@ -12,7 +12,7 @@ build:
       value: "example1"
 run:
   runtime-version: 3.8
-  command: streamlit run --server.port 8080 emmaus_walking/emmaus_walking/app.py
+  command: streamlit run --server.port 8080 emmaus_walking/app.py
   network: 
     port: 8080
     env: MY_APP_PORT  
