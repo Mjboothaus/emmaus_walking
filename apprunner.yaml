@@ -12,7 +12,7 @@ build:
       value: "example1"
 run:
   runtime-version: 3.8
-  command: streamlit run emmaus_walking/app.py --server.port=8080 --server.enableCORS=false --server.enableWebsocketCompression=false --server.enableXsrfProtection=false
+  command: streamlit run emmaus_walking/app.py --headless=true --server.port=8080
   network: 
     port: 8080
     env: MY_APP_PORT  
