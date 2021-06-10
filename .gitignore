@@ -37,6 +37,9 @@ wheels/
 .installed.cfg
 *.egg
 
+# Conda
+.env_conda
+
 # Poetry
 poetry.lock
 

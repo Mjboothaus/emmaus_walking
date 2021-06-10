@@ -4,7 +4,9 @@ channels:
   - fastai
 dependencies:
   - python==3.8
+  - pip
   - nbdev
   - streamlit
   - streamlit-folium
-prefix: /usr/local/Caskroom/miniforge/base/envs/emmaus_walking_py38
+  - pip:
+    - activityio
