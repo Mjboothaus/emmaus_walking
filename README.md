@@ -1,8 +1,10 @@
 # Emmaus Walking
+
 > App to visualise my tracked walks.
 
+## Try it out via Gitpod
 
-This file will become your README and also the index of your documentation.
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io#https://github.com/Mjboothaus/emmaus_walking)
 
 ## Install
 
@@ -10,15 +12,4 @@ This file will become your README and also the index of your documentation.
 
 ## How to use
 
-Fill me in please! Don't forget code examples:
-
-```
-1+1
-```
-
-
-
-
-    2
-
-
+TODO:
