@@ -1,0 +1,7 @@
+ports:
+  - port: 8501
+    onOpen: open-browser
+
+tasks:
+- init: pip3 install -r requirements.txt
+- command: streamlit run emmaus_walking/app.py
