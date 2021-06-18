@@ -4,4 +4,4 @@ ports:
 
 tasks:
 - init: pip3 install -r requirements.txt
-- command: streamlit run emmaus_walking/app.py
+- command: streamlit run ./emmaus_walking/app.py
