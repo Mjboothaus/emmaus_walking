@@ -11,7 +11,6 @@ import datetime as dt
 import sqlite3 as sql
 from pathlib import Path
 
-
 # Cell
 def calc_walk_stats(walk_data):
     total_time = dt.timedelta(0)

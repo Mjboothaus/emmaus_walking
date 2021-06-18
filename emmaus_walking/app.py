@@ -19,13 +19,10 @@ from IPython.display import display
 #import activityio as aio
 #from dateutil.parser import parse
 
-
-
 # Cell
 
 from core import in_notebook
 from datapipe import load_and_cache_raw_walk_data, calc_walk_stats
-
 
 # Cell
 
@@ -33,10 +30,9 @@ DATA_INFO = 'Health Fit / Apple Watch (Author)'
 AUTHOR_INFO = 'AUTHOR: [Michael J. Booth](https://about.me/mjboothaus)'
 APP_NAME = 'Emmaus Walking Mapping App'
 
-CACHED_WALK_DATA = '/Users/adminmichael1/github/emmaus_walking/emmaus_walking.cache.feather'
+CACHED_WALK_DATA = '../emmaus_walking/emmaus_walking.cache.feather'
 
 st.set_page_config(page_title=APP_NAME)
-
 
 # Cell
 
@@ -89,7 +85,7 @@ def app_sidebar(APP_NAME):
     st.sidebar.markdown(sb.author)
     st.sidebar.markdown(sb.datasource)
     st.sidebar.info(sb.data_title)
-    #st.sidebar.markdown('Datasize: ' + str(sb.datasize))
+    st.sidebar.markdown('Datasize: ' + str(sb.datasize))
     sb.walk_name = st.sidebar.selectbox('Choose a walk', WALK_NAME, 0)
     sb.linewidth = st.sidebar.slider('Line width:', min_value=1, max_value=10, value=6)
     sb.linecolour = st.sidebar.radio('Line colour:', ['yellow', 'blue'], 0)
@@ -106,7 +102,6 @@ def load_cached_walking_data():
         print(e)
     return all_walks_df
 
-
 # Cell
 
 def app_mainscreen(APP_NAME, sb):
@@ -121,13 +116,20 @@ def app_mainscreen(APP_NAME, sb):
 
     all_walks_df = load_cached_walking_data()
 
-    walk_points = all_walks_df[all_walks_df['WalkName']==sb.walk_name][['lat', 'lon']].values.tolist()
+    sb.datasize = all_walks_df.memory_usage(deep=True).sum() / 1024 / 1024
+
+    walk_name = sb.walk_name[0:3]
+
+
+    walk_points = all_walks_df[all_walks_df['WalkName']==walk_name][['lat', 'lon']].values.tolist()
+
+    # TODO: Need to plot sub-walks seperately to avoid ordering issues
 
     # total_time, total_distance, start_coord, end_coord = calc_walk_stats(walk_data)
 
-    start_coord = (33.0, -150.0)
+    start_coord = (0, 0)
 
-    map_handle = folium.Map(zoom_start=13, detect_retina=True, control_scale=True)
+    map_handle = folium.Map(start_coord, zoom_start=13, detect_retina=True, control_scale=True)
     plot_walk_points(walk_points, map_handle, sb.linecolour, sb.linewidth)
     map_handle.fit_bounds(map_handle.get_bounds())
 
