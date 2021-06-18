@@ -1,7 +1,9 @@
-tasks:
-  - init: python3 -m pip install --upgrade pip
-  - init: pip3 install -r requirements.txt
-  - command: streamlit run ./emmaus_walking/app.py
 ports:
 - port: 8501
   onOpen: open-browser
+tasks:
+- init: >
+    python -m pip install --upgrade pip &&
+    python -m pip install -r requirements.txt 
+  command: >
+    streamlit run ./emmaus_walking/app.py
