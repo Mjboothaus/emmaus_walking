@@ -8,6 +8,9 @@ import pandas as pd
 import activityio as aio
 from dateutil.parser import parse
 import datetime as dt
+import sqlite3 as sql
+from pathlib import Path
+
 
 # Cell
 def calc_walk_stats(walk_data):
@@ -26,8 +29,8 @@ def calc_walk_stats(walk_data):
 
 
 # TODO: use st.cache() and also look to pre-load and cache/feather data (or similar) - NB: use of @st.cache() below didn't work
-def load_and_cache_raw_walk_data(walk_name, sample_freq):
-    FIT_FILE_PATH = '/Users/mjboothaus/iCloud/Data/HealthFit/'
+def load_and_cache_raw_walk_data(walk_name, sample_freq, conn):
+    FIT_FILE_PATH = '/Users/adminmichael1/iCloud/Data/HealthFit/'
     data_dir = FIT_FILE_PATH + walk_name[0:3] + '/'
     data_files = [file for file in os.listdir(data_dir) if file.endswith('.fit')]
     walk_files = sorted(data_files)
@@ -36,11 +39,15 @@ def load_and_cache_raw_walk_data(walk_name, sample_freq):
     walk_date = []
 
     for iFile, file in enumerate(walk_files):
-        walk_data.append(pd.DataFrame(aio.read(data_dir + file)))
+        walk_df = pd.DataFrame(aio.read(data_dir + file))
+        walk_data.append(walk_df)
         walk_date.append(parse(file[0:17]))
+        walk_df['WalkName'] = walk_name
+        walk_df['WalkNumber'] = iFile
+        walk_df[['alt', 'dist', 'lat', 'lon', 'speed', 'WalkName', 'WalkNumber']].to_sql('walks', conn, if_exists='append', index=False)
 
     total_time, total_distance, start_coord, end_coord = calc_walk_stats(walk_data)
-    print(start_coord)
+    #print(start_coord)
     walk_merged = pd.concat(walk_data)
     points = walk_merged[['lat', 'lon']].values.tolist()
     points = [tuple(point) for ipoint, point in enumerate(points) if ipoint % sample_freq == 0]
