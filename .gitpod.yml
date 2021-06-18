@@ -1,6 +1,6 @@
 ports:
 - port: 8501
-  onOpen: open-browser
+  onOpen: open-preview
 tasks:
 - init: >
     python -m pip install --upgrade pip &&
