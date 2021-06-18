@@ -6,4 +6,4 @@ tasks:
     python -m pip install --upgrade pip &&
     python -m pip install -r requirements.txt 
   command: >
-    streamlit run ./emmaus_walking/app.py
+    streamlit run ./emmaus_walking/app.py &
