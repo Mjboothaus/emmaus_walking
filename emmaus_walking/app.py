@@ -20,9 +20,13 @@ from IPython.display import display
 #from dateutil.parser import parse
 
 # Cell
-
-from core import in_notebook
-from datapipe import load_and_cache_raw_walk_data, calc_walk_stats
+# TODO: Following is a hack to fix issue with import paths using nbdev in notebook vs. app
+try:
+    from .core import in_notebook
+    from .datapipe import load_and_cache_raw_walk_data, calc_walk_stats
+except:
+    from core import in_notebook
+    from datapipe import load_and_cache_raw_walk_data, calc_walk_stats
 
 # Cell
 
@@ -30,7 +34,9 @@ DATA_INFO = 'Health Fit / Apple Watch (Author)'
 AUTHOR_INFO = 'AUTHOR: [Michael J. Booth](https://about.me/mjboothaus)'
 APP_NAME = 'Emmaus Walking Mapping App'
 
-CACHED_WALK_DATA = '../emmaus_walking/emmaus_walking.cache.feather'
+# CACHED_WALK_DATA = '../emmaus_walking/emmaus_walking.cache.feather'
+
+CACHED_WALK_DATA = 'emmaus_walking.cache.feather'
 
 st.set_page_config(page_title=APP_NAME)
 
@@ -96,10 +102,7 @@ def app_sidebar(APP_NAME):
 
 #@st.cache
 def load_cached_walking_data():
-    try:
-        all_walks_df = pd.read_feather(CACHED_WALK_DATA)   # load cached (downsampled) data
-    except Exception as e:
-        print(e)
+    all_walks_df = pd.read_feather(CACHED_WALK_DATA)   # load cached (downsampled) data
     return all_walks_df
 
 # Cell
@@ -114,14 +117,17 @@ def app_mainscreen(APP_NAME, sb):
     # sample_freq=50
     # walk_data, walk_date, walk_files, walk_points = load_and_cache_raw_walk_data(sb.walk_name, sample_freq)
 
+    walk_name = sb.walk_name[0:3]
     all_walks_df = load_cached_walking_data()
+    walk_points = all_walks_df[all_walks_df['WalkName']==walk_name].groupby('WalkNumber')[['lat', 'lon']]
 
     sb.datasize = all_walks_df.memory_usage(deep=True).sum() / 1024 / 1024
 
-    walk_name = sb.walk_name[0:3]
+    walk_data = []
+    for _, group in walk_points:
+        walk_data.append(group[['lat', 'lon']].values.tolist())
 
-
-    walk_points = all_walks_df[all_walks_df['WalkName']==walk_name][['lat', 'lon']].values.tolist()
+    # walk_points = all_walks_df[all_walks_df['WalkName']==walk_name][['lat', 'lon']].values.tolist()
 
     # TODO: Need to plot sub-walks seperately to avoid ordering issues
 
@@ -130,7 +136,11 @@ def app_mainscreen(APP_NAME, sb):
     start_coord = (0, 0)
 
     map_handle = folium.Map(start_coord, zoom_start=13, detect_retina=True, control_scale=True)
-    plot_walk_points(walk_points, map_handle, sb.linecolour, sb.linewidth)
+
+    # plot_walk_points(walk_points, map_handle, sb.linecolour, sb.linewidth)
+    for walk in walk_data:
+        plot_walk_points(walk, map_handle, sb.linecolour, sb.linewidth)
+
     map_handle.fit_bounds(map_handle.get_bounds())
 
     #TODO: Change the following to .format() and .join() not string "addition"
@@ -148,21 +158,38 @@ def app_mainscreen(APP_NAME, sb):
 def notebook_mainscreen(APP_NAME, sb):
     print(APP_NAME)
 
-    # Load walking data
-    sample_freq=50
-    walk_data, walk_date, walk_files, walk_points = load_and_cache_raw_walk_data(sb.walk_name, sample_freq)
-    total_time, total_distance, start_coord, end_coord = calc_walk_stats(walk_data)
+    all_walks_df = load_cached_walking_data()
+
+    sb.datasize = all_walks_df.memory_usage(deep=True).sum() / 1024 / 1024
+
+    walk_name = sb.walk_name[0:3]
+    walk_name = 'GNW'
+
+    # walk_points = all_walks_df[all_walks_df['WalkName']==walk_name][['lat', 'lon']].values.tolist()
+    walk_points = all_walks_df[all_walks_df['WalkName']==walk_name].groupby('WalkNumber')['lat', 'lon']
+
+    walk_data = []
+    for _, group in walk_points:
+        walk_data.append(group[['lat', 'lon']].values.tolist())
+
+    # TODO: Need to plot sub-walks seperately to avoid ordering issues
+
+    # total_time, total_distance, start_coord, end_coord = calc_walk_stats(walk_data)
+
+    start_coord = (0, 0)
 
     map_handle = folium.Map(start_coord, zoom_start=13, detect_retina=True, control_scale=True)
-    plot_walk_points(walk_points, map_handle, sb.linecolour, sb.linewidth)
+
+    for walk in walk_data:
+        plot_walk_points(walk, map_handle, sb.linecolour, sb.linewidth)
     map_handle.fit_bounds(map_handle.get_bounds())
 
     print(sb.walk_name)
-    print('Total time: ' + str(total_time))
-    print('Total distance (km): ' + str(int(total_distance)))
+    #print('Total time: ' + str(total_time))
+    #print('Total distance (km): ' + str(int(total_distance)))
 
     #folium_static(map_handle)
-    return map_handle, walk_data, walk_date, walk_points
+    return map_handle, None, None, walk_points
 
 # Cell
 
