@@ -87,8 +87,8 @@ def app_sidebar(APP_NAME):
     st.sidebar.info(sb.data_title)
     st.sidebar.markdown('Datasize: ' + str(sb.datasize))
     sb.walk_name = st.sidebar.selectbox('Choose a walk', WALK_NAME, 0)
-    sb.linewidth = st.sidebar.slider('Line width:', min_value=1, max_value=10, value=6)
-    sb.linecolour = st.sidebar.radio('Line colour:', ['yellow', 'blue'], 0)
+    sb.linewidth = st.sidebar.slider('Line width:', min_value=1, max_value=10, value=5)
+    sb.linecolour = st.sidebar.radio('Line colour:', ['blue', 'red', 'yellow'], 0)
 
     return sb
 
