@@ -30,8 +30,8 @@ except:
 
 # Cell
 
-DATA_INFO = 'Health Fit / Apple Watch (Author)'
-AUTHOR_INFO = 'AUTHOR: [Michael J. Booth](https://about.me/mjboothaus)'
+DATA_INFO = 'Apple Watch via Health Fit'
+AUTHOR_INFO = 'by [DataBooth.com.au](https://www.databooth.com.au)'
 APP_NAME = 'Emmaus Walking Mapping App'
 CACHED_WALK_DATA = 'emmaus_walking.cache.feather'
 
@@ -60,7 +60,7 @@ def plot_walk_points(walk_points, map_handle, linecolour, linewidth):
 # Cell
 
 IMAGE_PATH = 'emmaus_walking/resources'
-WALK_NAME = ['B2M: Bondi to Manly', 'B2W: Bondi to Wollongong', 'GNW: Great North Walk', 'GWW: Great West Walk']
+WALK_NAME = ['B2M: Bondi to Manly', 'B2W: Bondi to Wollongong', 'GNW: Great North Walk', 'GWW: Great West Walk']  # TODO: Extract this info from the cached meta-data file - from the meta-data in the database
 
 IMAGE_PATH = Path.cwd().resolve()/IMAGE_PATH
 
@@ -82,20 +82,20 @@ def app_sidebar(APP_NAME):
 
     sb = SideBar()
 
+    st.sidebar.info(APP_NAME)
     aw_image = Image.open(IMAGE_PATH/'AppleWatchExercise.jpeg')
     st.sidebar.image(image=aw_image, use_column_width=True, output_format='JPEG')
 
+    st.sidebar.markdown(sb.author)
+    #st.sidebar.markdown(sb.datasource)
+    #st.sidebar.info(sb.data_title)
+    #st.sidebar.markdown('Datasize: ' + str(sb.datasize))
+    sb.walk_name = st.sidebar.selectbox('Choose a walk', WALK_NAME, 0)
+    sb.linewidth = st.sidebar.slider('Line width:', min_value=1, max_value=5, value=3)
+    sb.linecolour = st.sidebar.radio('Line colour:', ['blue', 'green', 'red', 'yellow'], 0)
+
     hf_image = Image.open(IMAGE_PATH/'HealthFitLogo.png')
     st.sidebar.image(image=hf_image, use_column_width=True, output_format='PNG')
-
-    st.sidebar.info(APP_NAME)
-    st.sidebar.markdown(sb.author)
-    st.sidebar.markdown(sb.datasource)
-    st.sidebar.info(sb.data_title)
-    st.sidebar.markdown('Datasize: ' + str(sb.datasize))
-    sb.walk_name = st.sidebar.selectbox('Choose a walk', WALK_NAME, 0)
-    sb.linewidth = st.sidebar.slider('Line width:', min_value=1, max_value=10, value=4)
-    sb.linecolour = st.sidebar.radio('Line colour:', ['blue', 'red', 'yellow'], 0)
 
     return sb
 
