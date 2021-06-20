@@ -11,6 +11,7 @@ import datetime as dt
 import sqlite3 as sql
 from pathlib import Path
 
+
 # Cell
 def calc_walk_stats(walk_data):
     total_time = dt.timedelta(0)
@@ -46,8 +47,9 @@ def load_and_cache_raw_walk_data(walk_name, sample_freq, conn):
         walk_df[['alt', 'dist', 'lat', 'lon', 'speed', 'WalkName', 'WalkNumber']].to_sql('walks', conn, if_exists='append', index=False)
 
     total_time, total_distance, start_coord, end_coord = calc_walk_stats(walk_data)
+    walk_stats = [total_time, total_distance, start_coord, end_coord]
     #print(start_coord)
     walk_merged = pd.concat(walk_data)
     points = walk_merged[['lat', 'lon']].values.tolist()
     points = [tuple(point) for ipoint, point in enumerate(points) if ipoint % sample_freq == 0]
-    return walk_data, walk_date, walk_files, points
+    return walk_data, walk_date, walk_files, points, walk_stats
