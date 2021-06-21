@@ -76,6 +76,7 @@ class SideBar:
     walk_name = ''
     linewidth = 4
     linecolour = 'blue'
+    show_individual_walks = False
 
 
 def app_sidebar(APP_NAME):
@@ -100,6 +101,7 @@ def app_sidebar(APP_NAME):
     sb.walk_name = st.sidebar.selectbox('Choose a walk [* indicates still in progress]', WALK_NAME, 0)
     sb.linewidth = st.sidebar.slider('Line width:', min_value=1, max_value=5, value=3)
     sb.linecolour = st.sidebar.radio('Line colour:', ['blue', 'green', 'red', 'yellow'], 0)
+    sb.show_individual_walks = st.sidebar.checkbox('Show individual walks', value=False, key=None, help=None)
 
     return sb
 
@@ -143,8 +145,14 @@ def app_mainscreen(APP_NAME, sb):
     map_handle = folium.Map(start_coord, zoom_start=13, detect_retina=True, control_scale=True)
 
     # plot_walk_points(walk_points, map_handle, sb.linecolour, sb.linewidth)
-    for walk in walk_data:
-        plot_walk_points(walk, map_handle, sb.linecolour, sb.linewidth)
+    for nwalk, walk in enumerate(walk_data):
+        if sb.show_individual_walks:
+            if nwalk % 2 == 0:
+                plot_walk_points(walk, map_handle, 'blue', sb.linewidth)
+            else:
+                plot_walk_points(walk, map_handle, 'red', sb.linewidth)
+        else:
+            plot_walk_points(walk, map_handle, sb.linecolour, sb.linewidth)
 
     map_handle.fit_bounds(map_handle.get_bounds())
 
