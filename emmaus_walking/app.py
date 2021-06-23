@@ -233,4 +233,4 @@ if in_notebook():
     walk_date
     display(map_handle)
 else:
-    map_handle, walk_data, walk_date, walk_points = app_mainscreen(APP_NAME, sb)
+    map_handle = app_mainscreen(APP_NAME, sb)
