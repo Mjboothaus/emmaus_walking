@@ -1,0 +1,61 @@
+{
+    "schema": {
+        "fields": [
+            {
+                "name": "walk_shortname",
+                "type": "string"
+            },
+            {
+                "name": "walk_name",
+                "type": "string"
+            }
+        ],
+        "pandas_version": "0.20.0"
+    },
+    "data": [
+        {
+            "walk_shortname": "B2M",
+            "walk_name": "Bondi to Manly"
+        },
+        {
+            "walk_shortname": "B2W",
+            "walk_name": "Bondi to Wollongong"
+        },
+        {
+            "walk_shortname": "D2C",
+            "walk_name": "Drummoyne to Cockatoo"
+        },
+        {
+            "walk_shortname": "GNW",
+            "walk_name": "Great North Walk"
+        },
+        {
+            "walk_shortname": "GTL",
+            "walk_name": "Gladesville Loop"
+        },
+        {
+            "walk_shortname": "GWW",
+            "walk_name": "Great West Walk*"
+        },
+        {
+            "walk_shortname": "OLD",
+            "walk_name": "Old Bar"
+        },
+        {
+            "walk_shortname": "SNM",
+            "walk_name": "Snowy Mountains (Thredo)"
+        },
+        {
+            "walk_shortname": "STM",
+            "walk_name": "St Michael's Golf Course"
+        },
+        {
+            "walk_shortname": "WNG",
+            "walk_name": "Newcastle to Sydney*"
+        },
+        {
+            "walk_shortname": "ALL",
+            "walk_name": "All Walks"
+        }
+    ]
+}
