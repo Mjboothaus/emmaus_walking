@@ -64,7 +64,7 @@ IMAGE_PATH = Path.cwd().resolve()/IMAGE_PATH
 
 WALK_NAME = ['B2M: Bondi to Manly', 'B2W: Bondi to Wollongong', 'D2C: Drummoyne to Cockatoo', 'GNW: Great North Walk', \
             'GTL: Gladesville Loop', 'GWW*: Great West Walk', 'OLD: Old Bar', "STM: St Michael's Golf Course", \
-            'WNG*: Newcastle to Sydney']  # TODO: Extract this info from the cached meta-data file - from the meta-data in the database
+            'SNM: Snowy Mountains (Thredo)', 'WNG*: Newcastle to Sydney']  # TODO: Extract this info from the cached meta-data file - from the meta-data in the database
 
 WALK_NAME = WALK_NAME + ['ALL: All Walks']
 
