@@ -10,10 +10,6 @@
 
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io#https://github.com/Mjboothaus/emmaus_walking)
 
-## Install
-
-`pip install emmaus_walking`
-
 ## How to use
 
-TODO:
+Choose the walk you'd like to view, line size and colour and your good to go. The maps are zoomable and dragable.
