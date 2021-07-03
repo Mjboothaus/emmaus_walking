@@ -3,3 +3,4 @@ streamlit
 streamlit_folium
 folium
 activityio
+pyarrow
