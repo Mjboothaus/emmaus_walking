@@ -10,6 +10,7 @@ from dateutil.parser import parse
 import datetime as dt
 import sqlite3 as sql
 from pathlib import Path
+import tomli
 
 
 # Cell
@@ -30,10 +31,13 @@ def calc_walk_stats(walk_data):
 
 # TODO: use st.cache() and also look to pre-load and cache/feather data (or similar) - NB: use of @st.cache() below didn't work
 def load_and_cache_raw_walk_data(walk_name, sample_freq, conn):
-    FIT_FILE_PATH = '/Users/adminmichael1/iCloud/Data/HealthFit/'
-    data_dir = FIT_FILE_PATH + walk_name[0:3] + '/'
+    RAW_FIT_FILE_PATH = 'icloud/Data/HealthFit/FIT'
+    fit_dir = Path.home()/RAW_FIT_FILE_PATH
+    data_dir = fit_dir/walk_name[0:3]
+    print(data_dir.ls())
     data_files = [file for file in os.listdir(data_dir) if file.endswith('.fit')]
     walk_files = sorted(data_files)
+    print(walk_files)
 
     walk_data = []
     walk_date = []
