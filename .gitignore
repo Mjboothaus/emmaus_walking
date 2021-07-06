@@ -37,6 +37,9 @@ wheels/
 .installed.cfg
 *.egg
 
+# App specific
+app_config.toml
+
 # Conda
 .env_conda
 
