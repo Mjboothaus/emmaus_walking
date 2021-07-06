@@ -1,0 +1,47 @@
+# List of available walks and their names
+
+[[walks]]
+short_name = "B2M"
+name = "Bondi to Manly"
+
+[[walks]]
+short_name = "B2W"
+name = "Bondi to Wollongong"
+
+[[walks]]
+short_name = "D2C"
+name = "Drummoyne to Cockatoo"
+
+[[walks]]
+short_name = "GNW"
+name = "Great North Walk"
+
+[[walks]]
+short_name = "GTL"
+name = "Gladesville Loop"
+
+[[walks]]
+short_name = "GNW"
+name = "Great North Walk"
+
+[[walks]]
+short_name = "GWW"
+name = "Great West Walk"
+status = "incomplete"
+
+[[walks]]
+short_name = "OLD"
+name = "Old Bar"
+
+[[walks]]
+short_name = "STM"
+name = "St Michael's Golf Course"
+
+[[walks]]
+short_name = "SNM"
+name = "Snowy Mountains (Thredo)"
+
+[[walks]]
+short_name = "WNG"
+name = "Newcastle to Sydney"
+status = "incomplete"
