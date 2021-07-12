@@ -30,3 +30,9 @@ dist: clean
 
 clean:
 	rm -rf dist
+
+streamlit_run:
+	streamlit run emmaus_walking/app.py
+
+conda_env:
+	conda env create -f environment_conda.yml 
