@@ -38,7 +38,7 @@ wheels/
 *.egg
 
 # App specific
-app_config.toml
+app_secrets.toml
 
 # Conda
 .env_conda
