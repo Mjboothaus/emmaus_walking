@@ -31,7 +31,7 @@ dist: clean
 clean:
 	rm -rf dist
 
-streamlit_run:
+strun:
 	streamlit run emmaus_walking/app.py
 
 conda_env:

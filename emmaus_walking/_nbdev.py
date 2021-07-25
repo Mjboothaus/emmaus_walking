@@ -4,6 +4,7 @@ __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
 index = {"in_notebook": "00_core.ipynb",
          "ipython_info": "00_core.ipynb",
+         "get_project_root": "00_core.ipynb",
          "calc_walk_stats": "01_datapipe.ipynb",
          "load_and_cache_raw_walk_data": "01_datapipe.ipynb",
          "load_config_file": "88_app.ipynb",
@@ -21,8 +22,7 @@ index = {"in_notebook": "00_core.ipynb",
          "load_cached_walking_data": "88_app.ipynb",
          "app_mainscreen": "88_app.ipynb",
          "notebook_mainscreen": "88_app.ipynb",
-         "sb": "88_app.ipynb",
-         "get_project_root": "00_core.ipynb"}
+         "sb": "88_app.ipynb"}
 
 modules = ["core.py",
            "datapipe.py",
