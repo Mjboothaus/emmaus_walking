@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  emmauswalking:
+    image: emmauswalking
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: ["sh", "-c", "pip install debugpy -t /tmp && python /tmp/debugpy --wait-for-client --listen 0.0.0.0:8501 emmaus_walking/app.py "]
+    ports:
+      - 8501:8501
