@@ -31,12 +31,14 @@ def ipython_info():
 # Cell
 def get_project_root() -> Path:
     if not in_notebook():
-        return Path(__file__).parent
+        print("NOT in Jupyter notebook")
+        return Path(__file__).parent.parent
     else:
+        print("In Jupyter notebook")
         return Path.cwd().parent
 
 
 
 # Cell
 
-get_project_root()
+print('Project root directory: ' + get_project_root().as_posix())

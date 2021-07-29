@@ -34,20 +34,20 @@ def load_and_cache_raw_walk_data(walk_name, sample_freq, conn):
     RAW_FIT_FILE_PATH = 'icloud/Data/HealthFit/FIT'
     fit_dir = Path.home()/RAW_FIT_FILE_PATH
     data_dir = fit_dir/walk_name[0:3]
-    print(data_dir.ls())
+    #print(data_dir.ls())
     data_files = [file for file in os.listdir(data_dir) if file.endswith('.fit')]
     walk_files = sorted(data_files)
-    print(walk_files)
+    #print(walk_files)
 
     walk_data = []
     walk_date = []
 
     for iFile, file in enumerate(walk_files):
-        print(file)
-        if Path(file).suffix == '.icloud':
-            print('Undownloaded files in iCloud Drive - STOP')
-            return False
-        walk_df = pd.DataFrame(aio.read(data_dir + file))
+        #print(file)
+        #if Path(file).suffix == '.icloud':
+        #    print('Undownloaded files in iCloud Drive - STOP')
+        #    return False
+        walk_df = pd.DataFrame(aio.read(data_dir.joinpath(file)))
         if len(walk_df) > 1:
             walk_data.append(walk_df)
             walk_date.append(parse(file[0:17]))
