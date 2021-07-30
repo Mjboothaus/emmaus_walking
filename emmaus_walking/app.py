@@ -2,7 +2,7 @@
 
 __all__ = ['load_config_file', 'APP_CONFIG_FILE', 'app_config', 'APP_NAME', 'CACHED_WALK_DATA', 'plot_walk',
            'plot_entire_walk', 'plot_walk_points', 'SideBar', 'app_sidebar', 'IMAGE_PATH', 'IMAGE_PATH', 'WALK_NAME',
-           'WALK_NAME', 'load_cached_walking_data', 'app_mainscreen', 'notebook_mainscreen', 'sb']
+           'load_cached_walking_data', 'app_mainscreen', 'notebook_mainscreen', 'sb']
 
 # Cell
 
@@ -16,23 +16,24 @@ import folium
 from PIL import Image
 from IPython.display import display
 import tomli
-#import os, io
+import os
+# , io
 #import activityio as aio
 #from dateutil.parser import parse
 
 # Cell
 # TODO: Following is a hack to fix issue with import paths using nbdev in notebook vs. app
 try:
-    from .core import in_notebook, get_project_root
+    from .core import in_notebook, get_project_root, get_project_root_alternate
     from .datapipe import load_and_cache_raw_walk_data, calc_walk_stats
 except:
-    from core import in_notebook, get_project_root
+    from core import in_notebook, get_project_root, get_project_root_alternate
     from datapipe import load_and_cache_raw_walk_data, calc_walk_stats
 
 # Cell
 
 def load_config_file(config_file):
-    with open(get_project_root()/config_file, encoding="utf-8") as f:
+    with open(get_project_root_alternate()/config_file, encoding="utf-8") as f:
         app_config = tomli.load(f)
     return app_config
 
@@ -73,13 +74,13 @@ def plot_walk_points(walk_points, map_handle, linecolour, linewidth):
 # Cell
 
 IMAGE_PATH = 'emmaus_walking/resources'
-IMAGE_PATH = get_project_root() / IMAGE_PATH
+IMAGE_PATH = get_project_root_alternate() / IMAGE_PATH
 
 WALK_NAME = ['B2M: Bondi to Manly', 'B2W: Bondi to Wollongong', 'D2C: Drummoyne to Cockatoo', 'GNW: Great North Walk', \
             'GTL: Gladesville Loop', 'GWW*: Great West Walk', 'OLD: Old Bar', "STM: St Michael's Golf Course", \
             'SNM: Snowy Mountains (Thredo)', 'WNG*: Newcastle to Sydney']  # TODO: Extract this info from the cached meta-data file - from the meta-data in the database
 
-WALK_NAME = WALK_NAME + ['ALL: All Walks']
+WALK_NAME += ['ALL: All Walks']
 
 class SideBar:
     datasource = app_config['APP']['DATASOURCE']

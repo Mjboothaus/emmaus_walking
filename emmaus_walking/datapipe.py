@@ -11,6 +11,7 @@ import datetime as dt
 import sqlite3 as sql
 from pathlib import Path
 import tomli
+# import fastparquet - problem installing on M1 - parking for now
 
 
 # Cell
