@@ -13,6 +13,7 @@ index = {"in_notebook": "00_core.ipynb",
          "app_config": "88_app.ipynb",
          "APP_NAME": "88_app.ipynb",
          "CACHED_WALK_DATA": "88_app.ipynb",
+         "CACHE_FORMAT": "88_app.ipynb",
          "plot_walk": "88_app.ipynb",
          "plot_entire_walk": "88_app.ipynb",
          "plot_walk_points": "88_app.ipynb",
@@ -23,7 +24,7 @@ index = {"in_notebook": "00_core.ipynb",
          "load_cached_walking_data": "88_app.ipynb",
          "app_mainscreen": "88_app.ipynb",
          "notebook_mainscreen": "88_app.ipynb",
-         "sb": "88_app.ipynb"}
+         "main": "88_app.ipynb"}
 
 modules = ["core.py",
            "datapipe.py",

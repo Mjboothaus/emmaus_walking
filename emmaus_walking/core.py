@@ -14,7 +14,12 @@ def in_notebook() -> bool:
     Returns ``True`` if the module is running in IPython kernel,
     ``False`` if in IPython shell or other Python shell.
     """
-    return "ipykernel" in sys.modules
+    #return "ipykernel" in sys.modules
+    try:
+        __IPYTHON__
+        return True
+    except NameError:
+        return False
 
 
 # later I found out this:

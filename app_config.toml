@@ -2,7 +2,8 @@
 DATASOURCE = 'Apple Watch via Health Fit'
 AUTHOR = 'by [DataBooth.com.au](https://www.databooth.com.au)'
 NAME = 'Emmaus Walking Mapping App'
-CACHED_DATAFILE = 'emmaus_walking.cache.feather'
+CACHE_FORMAT = 'CSV'
+CACHED_DATAFILE = 'emmaus_walking.cache.csv.gz'
 LAYOUT = 'wide'
 
 [S3] # Cloud Object Storage: https://console.scaleway.com
