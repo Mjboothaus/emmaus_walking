@@ -1,8 +1,8 @@
 select
-    id,
-    duration,
-    totaldistance,
-    totalenergyburned,
+    id as workout_id,
+    duration as duration_minutes,
+    totaldistance as totaldistance_km,
+    totalenergyburned as totalenergyburned_kJ,
     sourcename,
     sourceversion,
     startdate,

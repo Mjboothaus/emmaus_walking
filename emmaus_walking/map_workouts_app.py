@@ -14,7 +14,7 @@ def plot_walk_points(walk_points, map_handle, linecolour, linewidth):
 db = Database(Path("/Users/mjboothaus/data/healthkit/healthkit_2021_07_31.db"))
 
 # Load some example data.
-DATA_URL = Path("nbs/start_point_df.xlsx")
+DATA_URL = Path("nbs/walk_info_df.xlsx")
 data = st.cache(pd.read_excel)(DATA_URL)
 
 # Select some rows using st.multiselect. This will break down when you have >1000 rows.
