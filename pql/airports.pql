@@ -1,0 +1,14 @@
+//
+//    Airports - Download and load a JSON
+//  =======================================
+//
+
+// Download the JSON and import it as table 'airports'.
+// Uses Pandas' read_json() function.
+
+import_json("airports", "https://gist.githubusercontent.com/tdreyno/4278655/raw/7b0762c09b519f40397e4c3e100b097d861f5588/airports.json")
+
+// Remove unhelpful fields
+airports_short = airports{... !url !tz !phone !email !type}
+
+print airports_short order {^elev}
