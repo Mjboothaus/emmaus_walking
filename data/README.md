@@ -7,7 +7,7 @@ The data for this app consists of workouts (either `walks` or `hikes`) collected
 This data is aggregated/consolidation via the Apple Health app and is (most easily) exported from this app on the iPhone.
 
 From the Apple Health app, you tap the user in the top right corner of the main screen and then choose the `Export All Health Data` option. Depending
-on the amount of health data that you 
+on the amount of health data that you have this export process can take quite a few minutes to generate the file `export.zip` (a zipped XML file containing various health data.)
 
 ### `Healthkit-to-sqlite`
 
