@@ -39,6 +39,7 @@ import tomli
 from dateutil.parser import parse
 from prefect import Flow, task
 #from prefect.tasks.aws.s3 import S3Upload
+from prefect.tasks.shell import ShellTask
 from prefect.core.parameter import Parameter
 from prefect.engine.executors import LocalDaskExecutor
 from prefect.engine.results import LocalResult
@@ -48,7 +49,7 @@ from sqlite_utils import Database
 HEALTHKIT_DATA_PATH = Path("/Users/mjboothaus/data/healthkit")
 
 # %%
-@task(checkpoint=True, result=LocalResult(), target="{task_name}-{today}")
+#@task(checkpoint=True, result=LocalResult(), target="{task_name}-{today}")
 def convert_healthkit_export_zip_to_sqlite(hk_path):
     export_zip = hk_path / "export.zip"
 
@@ -77,7 +78,7 @@ def convert_healthkit_export_zip_to_sqlite(hk_path):
     export_zip.rename(zip_file.replace(".zip", "_" + zip_file_date.to_date_string().replace("-", "_") + ".zip"))
     Path(db_file).rename(db_file_with_date)
 
-    return db_file_with_date, sp_output
+    return db_file_with_date
 
 # %%
 def show_run_datasette_on_healthkit_db_info(db_file):
@@ -200,8 +201,7 @@ def create_walk_cached_data_for_app(db_file, n_rows_used=5):
     
     return walk_df
 
-# %%
-# Path(db_file.as_posix().replace('.sqlite', '.cache.feather'))
+
 
 # %%
 @task
@@ -216,17 +216,21 @@ def create_flow() -> Flow:
     #local_parallelizing_environment = LocalEnvironment(executor=LocalDaskExecutor())
     FLOW_NAME = "Convert Apple HealthKit (export.zip) to SQLite DB then publish as Fly app"
 
+    task = ShellTask(helper_script="cd ~")
+
     #with Flow(FLOW_NAME, environment=local_parallelizing_environment) as flow:
-    with Flow(FLOW_NAME) as flow:        
-        db_file, output = convert_healthkit_export_zip_to_sqlite(HEALTHKIT_DATA_PATH)
+    with Flow(FLOW_NAME) as flow:  
+        contents = task(command='ls')      
+        db_file = convert_healthkit_export_zip_to_sqlite(HEALTHKIT_DATA_PATH)
         show_run_datasette_on_healthkit_db_info(db_file)
-        walk_info_df, db = extract_walk_info_to_excel(db_file)
+        walk_info_df, db = extract_walk_info_to_excel(db_file, HEALTHKIT_DATA_PATH)
         fly_app_name = datasette_publish_to_fly(db_file)
 
         print(fly_app_name)
 
-    return flow
-
+    out = flow.run()
+    return out
 # %%
 if __name__ == "__main__":
-    create_flow()
+    out = create_flow()
+    print(out)
