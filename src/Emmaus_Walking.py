@@ -123,12 +123,6 @@ def load_cached_walking_data():
 
 def app_mainscreen(APP_TITLE, sb):
     st.subheader(sb.walk_name)
-
-    # Load walking data
-    # OLD_WAY ---------------------------------------------------------------------------------------------
-    # sample_freq=50
-    # walk_data, walk_date, walk_files, walk_points = load_and_cache_raw_walk_data(sb.walk_name, sample_freq)
-
     walk_name = sb.walk_name[:3]
     all_walks_df = load_cached_walking_data()
 
@@ -182,10 +176,9 @@ def app_mainscreen(APP_TITLE, sb):
     # st.write('Total distance (km): ' + str(int(total_distance)))
 
     folium_static(map_handle, width=800, height=650)
-
     return map_handle
-    # return map_handle, walk_data, walk_date, walk_points
 
+# Run the app
 
 sb = app_sidebar()
 map_handle = app_mainscreen(APP_TITLE, sb)
