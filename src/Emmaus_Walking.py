@@ -6,12 +6,12 @@ from streamlit_folium import folium_static
 import folium
 from PIL import Image
 
-# from datapipe import load_and_cache_raw_walk_data, calc_walk_stats
+# from datapipe import load_and_cache_raw_walk_data, calc_walk_stats - no longer needed
 
 DATA_INFO = "Apple Watch via Health Fit"
 AUTHOR_INFO = "by [DataBooth.com.au](https://www.databooth.com.au)"
-APP_NAME = "Emmaus Walking Mapping App"
-CACHED_WALK_DATA = "emmaus_walking.cache.feather"
+APP_TITLE = "Emmaus Walking Mapping App"
+CACHED_WALK_DATA = "data/emmaus_walking.cache.feather"
 IMAGE_PATH = "src/resources"
 IMAGE_PATH = Path.cwd().resolve() / IMAGE_PATH
 
@@ -30,14 +30,36 @@ WALK_NAME = [
 WALK_NAME += ["ALL: All Walks"]
 
 
-st.set_page_config(page_title=APP_NAME, layout="wide")
+# Note this must be the first function call in the Streamlit app code
+
+st.set_page_config(
+    page_title=APP_TITLE,
+    page_icon="🚶", 
+    layout="wide",
+    initial_sidebar_state="expanded",
+    menu_items={
+        'Get Help': 'https://www.databooth.com.au/help',
+        'Report a bug': "https://www.databooth.com.au/bug",
+        "About": "Created with love & care at DataBooth - www.databooth.com.au"
+    },
+)
+
+# config = read_toml_file()
+# SUB_TITLE = config["st-app"]["SUB_TITLE"]
+
+def create_app_header(app_title, subtitle=None):
+    st.header(app_title)
+    if subtitle is not None:
+        st.subheader(subtitle)
+    return None
+
+
+# create_app_header(APP_TITLE)
 
 
 class SideBar:
     datasource = DATA_INFO
     datasize = 0  # look to calculate this (in MB?) - TEST: Comment change
-    author = AUTHOR_INFO
-    data_title = "Data details..."
     data_local = False
     start_date = dt.date.today()
     end_date = dt.date.today()
@@ -66,9 +88,8 @@ def plot_walk_points(walk_points, map_handle, linecolour, linewidth):
     folium.PolyLine(walk_points, color=linecolour, weight=linewidth).add_to(map_handle)
 
 
-def app_sidebar(APP_NAME):
+def app_sidebar():
     sb = SideBar()
-    st.sidebar.info(APP_NAME)
     col1, col2 = st.sidebar.columns(2)
     with col1:
         image1 = Image.open(IMAGE_PATH / "AppleWatchExercise.jpeg").resize(
@@ -78,7 +99,7 @@ def app_sidebar(APP_NAME):
     with col2:
         image2 = Image.open(IMAGE_PATH / "HealthFitLogo.png")
         st.image(image=image2, use_column_width=True, output_format="PNG")
-    st.sidebar.markdown(sb.author)
+    # st.sidebar.markdown(sb.author)
     # st.sidebar.markdown(sb.datasource)
     # st.sidebar.info(sb.data_title)
     # st.sidebar.markdown('Datasize: ' + str(sb.datasize))
@@ -100,9 +121,8 @@ def load_cached_walking_data():
     return pd.read_feather(CACHED_WALK_DATA)
 
 
-def app_mainscreen(APP_NAME, sb):
-    # st.title(APP_NAME)
-    st.header(sb.walk_name)
+def app_mainscreen(APP_TITLE, sb):
+    st.subheader(sb.walk_name)
 
     # Load walking data
     # OLD_WAY ---------------------------------------------------------------------------------------------
@@ -167,5 +187,5 @@ def app_mainscreen(APP_NAME, sb):
     # return map_handle, walk_data, walk_date, walk_points
 
 
-sb = app_sidebar(APP_NAME)
-map_handle = app_mainscreen(APP_NAME, sb)
+sb = app_sidebar()
+map_handle = app_mainscreen(APP_TITLE, sb)
