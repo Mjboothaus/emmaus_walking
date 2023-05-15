@@ -1,9 +1,0 @@
-activityio==0.0.3
-folium==0.12.1
-ipython==7.25.0
-numpy==1.21.0
-pandas>=1.2.0
-Pillow==8.3.0
-python_dateutil==2.8.1
-streamlit==0.84.0
-streamlit_folium==0.4.0
