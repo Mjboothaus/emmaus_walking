@@ -6,13 +6,13 @@ from streamlit_folium import folium_static
 import folium
 from PIL import Image
 
-from datapipe import load_and_cache_raw_walk_data, calc_walk_stats
+# from datapipe import load_and_cache_raw_walk_data, calc_walk_stats
 
 DATA_INFO = "Apple Watch via Health Fit"
 AUTHOR_INFO = "by [DataBooth.com.au](https://www.databooth.com.au)"
 APP_NAME = "Emmaus Walking Mapping App"
 CACHED_WALK_DATA = "emmaus_walking.cache.feather"
-IMAGE_PATH = "emmaus_walking/resources"
+IMAGE_PATH = "src/resources"
 IMAGE_PATH = Path.cwd().resolve() / IMAGE_PATH
 
 WALK_NAME = [
