@@ -1,0 +1,24 @@
+
+[project]
+name = ""
+version = ""
+description = ""
+authors = [
+    {name = "Michael Booth", email = "michael@databooth.com.au"},
+]
+dependencies = [
+    "pandas>=2.0.1",
+    "streamlit>=1.22.0",
+    "watchdog>=3.0.0",
+    "streamlit-folium>=0.11.1",
+    "folium>=0.14.0",
+    "Pillow>=9.5.0",
+]
+requires-python = ">=3.10"
+license = {text = "DataBooth"}
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "notebook>=6.5.4",
+    "ipython>=8.13.2",
+]
